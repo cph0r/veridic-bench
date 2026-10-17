@@ -1,0 +1,78 @@
+[
+  {
+    "repo": "realworld",
+    "sha": "30b68e1e88",
+    "dir": "/var/folders/5l/d0rvd8fn5xlbwggqt913tnpm0000gn/T/veridic-bench/e2e-realworld-NBLVJc",
+    "model": "sonnet",
+    "modules": [
+      {
+        "id": "articles",
+        "routes": 11,
+        "spec": "specs/articles/spec.md",
+        "written": true,
+        "requirements": 33,
+        "citations": 48,
+        "resolving": 48,
+        "claims_support": 1,
+        "covered": 11,
+        "findings": 0,
+        "findings_recorded": 0
+      },
+      {
+        "id": "auth",
+        "routes": 4,
+        "spec": "specs/auth/spec.md",
+        "written": true,
+        "requirements": 24,
+        "citations": 35,
+        "resolving": 35,
+        "claims_support": 1,
+        "covered": 4,
+        "findings": 0,
+        "findings_recorded": 0
+      }
+    ],
+    "cost_usd": 0.7844184000000001,
+    "minutes": 2.1,
+    "turns": 5,
+    "error": null
+  },
+  {
+    "repo": "proshop-v2",
+    "sha": "e23e3a897e",
+    "dir": "/var/folders/5l/d0rvd8fn5xlbwggqt913tnpm0000gn/T/veridic-bench/e2e-proshop-v2-9GEEsO",
+    "model": "sonnet",
+    "modules": [
+      {
+        "id": "orders",
+        "routes": 6,
+        "spec": "specs/orders/spec.md",
+        "written": true,
+        "requirements": 20,
+        "citations": 36,
+        "resolving": 36,
+        "claims_support": 1,
+        "covered": 6,
+        "findings": 1,
+        "findings_recorded": 1
+      },
+      {
+        "id": "users",
+        "routes": 9,
+        "spec": "specs/users/spec.md",
+        "written": true,
+        "requirements": 25,
+        "citations": 45,
+        "resolving": 45,
+        "claims_support": 1,
+        "covered": 9,
+        "findings": 0,
+        "findings_recorded": 0
+      }
+    ],
+    "cost_usd": 0.8587776999999996,
+    "minutes": 2.8,
+    "turns": 5,
+    "error": null
+  }
+]
