@@ -15,7 +15,7 @@
     ],
     "id-param-without-caller-scope PUT /rest/products/:id/reviews": [
       false,
-      "products are a public catalogue; reviewing any product is intended"
+      "products are a public catalogue (the route's real flaw, a spoofable author, is flagged separately)"
     ],
     "get-that-writes GET /rest/user/change-password": [
       true,
@@ -76,12 +76,32 @@
     "get-that-writes GET /metrics": [
       true,
       "records a solved challenge"
+    ],
+    "identity-from-request-body POST /rest/basket/:id/checkout": [
+      true,
+      "charges the wallet of whichever UserId the request body names (WalletModel.decrement \u2026 where UserId: req.body.UserId)"
+    ],
+    "identity-from-request-body PUT /api/BasketItems/:id": [
+      true,
+      "moves an item into whichever BasketId the body names: the documented Manipulate Basket challenge"
+    ],
+    "id-param-without-caller-scope GET /rest/basket/:id": [
+      true,
+      "reads any user's basket by id: the documented View Basket challenge"
+    ],
+    "identity-from-request-body PUT /rest/products/:id/reviews": [
+      true,
+      "takes the review's author from the body: the documented Forged Review challenge"
     ]
   },
   "NodeGoat": {
     "get-that-writes GET /logout": [
       true,
       "destroys the session on a GET"
+    ],
+    "user-id-from-url GET /allocations/:userId": [
+      true,
+      "reads the allocations of whichever user the URL names: NodeGoat's documented A4 (insecure direct object reference)"
     ]
   },
   "hackathon-starter": {

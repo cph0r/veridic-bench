@@ -19,6 +19,7 @@ import { openGraph } from "veridic/core/graph.mjs";
 import { routeInventory } from "veridic/core/routes.mjs";
 import { effectManifest, readiness } from "veridic/core/effects.mjs";
 import { auditTests } from "veridic/core/tests.mjs";
+import { independentScan } from "./scan.mjs";
 
 const HERE = import.meta.dirname;
 const ROOT = path.dirname(createRequire(import.meta.url).resolve("veridic/package.json"));
@@ -42,27 +43,6 @@ function checkout(r) {
   git(dir, ["fetch", "-q", "--depth", "1", "origin", r.sha]);
   git(dir, ["checkout", "-q", "FETCH_HEAD"]);
   return dir;
-}
-
-/**
- * Independent route count, per file: a plain text scan that shares no code with
- * Veridic. Comments skipped; test, client and fixture files left out.
- */
-function independentScan(repo) {
-  const M = "(get|post|put|patch|delete|all|options|head)";
-  const direct = new RegExp(`\\b(\\w+)\\s*\\.\\s*${M}\\s*\\(\\s*(['"\`])(/[^'"\`]*|\\*)\\3`, "g");
-  const chain = new RegExp(`\\.\\s*route\\s*\\(\\s*(['"\`])([^'"\`]+)\\1\\s*\\)((?:\\s*\\.\\s*${M}\\s*\\((?:[^()]|\\((?:[^()]|\\([^()]*\\))*\\))*\\))+)`, "g");
-  const notServer = new Set(["axios", "request", "http", "https", "supertest", "agent", "fetch", "client", "api", "$http", "cy", "res", "response", "Promise"]);
-  const per = {};
-  for (const f of git(repo, ["ls-files"]).split("\n")) {
-    if (!/\.[cm]?[jt]s$/.test(f) || /(test|spec)\.|\/tests?\/|__tests__|node_modules|frontend\/|client\/|cypress|\.d\.ts$|codefixes\//.test(f)) continue;
-    let src = fs.readFileSync(path.join(repo, f), "utf8");
-    src = src.replace(/\/\*[\s\S]*?\*\//g, (m) => "\n".repeat((m.match(/\n/g) ?? []).length)).replace(/^\s*\/\/.*$/gm, "");
-    let n = [...src.matchAll(direct)].filter((m) => !notServer.has(m[1])).length;
-    for (const m of src.matchAll(chain)) n += (m[3].match(new RegExp(`\\.\\s*${M}\\s*\\(`, "g")) ?? []).length;
-    if (n) per[f] = n;
-  }
-  return per;
 }
 
 const timed = (fn) => {
