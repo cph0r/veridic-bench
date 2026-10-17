@@ -27,7 +27,10 @@ const VERSION = JSON.parse(fs.readFileSync(path.join(V, "package.json"), "utf8")
 const REPOS = ["hackathon-starter", "juice-shop", "node-express-boilerplate", "express-rest-boilerplate", "directus"];
 const git = (cwd, a) => execFileSync("git", a, { cwd, encoding: "utf8", maxBuffer: 256 << 20, stdio: ["ignore", "pipe", "ignore"] }).trim();
 const TEST = /(^|\/)(__tests__|tests?)\/|\.(test|spec)\.[cm]?[jt]sx?$/;
-const E2E = /(^|\/)(e2e|cypress|playwright)\//;
+const E2E = /(^|\/)(e2e[\w-]*|cypress|playwright)\//;
+// A ground-truth test is a real test file (with test cases), on the server side like the code.
+const TEST_FILE = /\.(test|spec)\.[cm]?[jt]sx?$/;
+const CLIENT = /(^|\/)(frontend|client|app\/src)\//;
 const SOURCE = (f) => /\.[cm]?[jt]s$/.test(f) && !TEST.test(f) && !E2E.test(f) && !/(^|\/)(frontend|client|app\/src|docs?|scripts?|migrations?|templates?)\//.test(f) && !/\.d\.ts$/.test(f);
 
 const results = [];
@@ -42,7 +45,7 @@ for (const name of REPOS) {
     else if (line.trim() && cur) cur.files.push(line.trim());
   }
   // Unit/integration tests only: end-to-end suites drive the whole app and reach everything.
-  const picked = commits.filter((c) => c.files.some(SOURCE) && c.files.some((f) => TEST.test(f) && !E2E.test(f) && /\.[cm]?[jt]sx?$/.test(f)) && c.files.length <= 40).slice(0, perRepo);
+  const picked = commits.filter((c) => c.files.some(SOURCE) && c.files.some((f) => TEST_FILE.test(f) && !E2E.test(f) && !CLIENT.test(f)) && c.files.length <= 40).slice(0, perRepo);
   for (const c of picked) {
     try {
       git(dir, ["checkout", "-q", "-f", c.sha]);
@@ -52,7 +55,7 @@ for (const name of REPOS) {
     }
     ensureIndex(dir, { build: true, sync: true, log: () => {} });
     const source = c.files.filter(SOURCE).filter((f) => fs.existsSync(path.join(dir, f)));
-    const truth = c.files.filter((f) => TEST.test(f) && !E2E.test(f) && fs.existsSync(path.join(dir, f)));
+    const truth = c.files.filter((f) => TEST_FILE.test(f) && !E2E.test(f) && !CLIENT.test(f) && fs.existsSync(path.join(dir, f)));
     if (!source.length || !truth.length) continue;
     const reach = testsReaching(dir, source);
     const predicted = new Set([...reach.values()].flat().map((t) => t.file));

@@ -65,7 +65,7 @@ for (const name of REPOS) {
     const after = handlers(dir);
     const report = staleness(dir, spec, { range: `${c0}..${ck}` });
     const flagged = new Set(report.stale.map((s) => s.fr));
-    const fix = new Map(report.fixes.map((f) => [f.fr, f.replacement]));
+    const fix = new Map(report.fixes.map((f) => [f.fr, f.replacement.replace(/^`|`$/g, "").replace(/:(\d+)-\1$/, ":$1")]));
     const tally = { moved: 0, moved_right: 0, still: 0, still_right: 0, changed: 0, changed_flagged: 0, gone: 0, gone_flagged: 0, wrong: [] };
     ids.forEach((id, i) => {
       const fr = `FR-${String(i + 1).padStart(3, "0")}`;
@@ -83,7 +83,8 @@ for (const name of REPOS) {
         else tally.wrong.push(`${id}: handler edited, not flagged`);
         return;
       }
-      const now = `${a.file}:${a.start}-${a.end}`;
+      // A one-line citation is written `file:12`; `file:12-12` is the same lines.
+      const now = a.start === a.end ? `${a.file}:${a.start}` : `${a.file}:${a.start}-${a.end}`;
       if (a.file === b.file && a.start === b.start && a.end === b.end) {
         tally.still++;
         if (!flagged.has(fr) && (!fix.has(fr) || fix.get(fr) === now)) tally.still_right++;

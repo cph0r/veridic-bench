@@ -1,6 +1,6 @@
 {
   "generated": "2026-10-17",
-  "veridic": "0.4.1",
+  "veridic": "0.5.0",
   "results": [
     {
       "name": "juice-shop",
@@ -15,40 +15,40 @@
       },
       "agent_ready": {
         "tools": 116,
-        "reads": 62,
-        "writes": 51,
+        "reads": 61,
+        "writes": 52,
         "destructive": 3,
-        "move_money": 0,
+        "move_money": 3,
         "gets_that_write": 16,
         "issues": {
-          "high": 1,
-          "medium": 19,
+          "high": 2,
+          "medium": 22,
           "low": 11
         },
-        "agent_ready_pct": 84.5,
-        "graded_issues": 20,
-        "judged_true": 18,
+        "agent_ready_pct": 83.6,
+        "graded_issues": 24,
+        "judged_true": 22,
         "judged_false": 2,
         "unjudged": 0
       },
       "tests": {
         "test_files": 246,
-        "tests": 2436,
-        "strong": 2156,
-        "weak": 263,
-        "unasserted": 4,
+        "tests": 2438,
+        "strong": 2158,
+        "weak": 264,
+        "unasserted": 3,
         "empty": 0,
         "skipped": 13,
-        "checking_pct": 99.8,
-        "nothing_judged_true": 4,
+        "checking_pct": 99.9,
+        "nothing_judged_true": 3,
         "nothing_judged_false": 0,
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 6388,
-        "routes": 263,
-        "agent_ready": 419,
-        "test_audit": 71
+        "index": 1439,
+        "routes": 174,
+        "agent_ready": 373,
+        "test_audit": 44
       }
     },
     {
@@ -71,12 +71,12 @@
         "gets_that_write": 1,
         "issues": {
           "high": 0,
-          "medium": 1,
-          "low": 0
+          "medium": 2,
+          "low": 1
         },
-        "agent_ready_pct": 95,
-        "graded_issues": 1,
-        "judged_true": 1,
+        "agent_ready_pct": 90,
+        "graded_issues": 2,
+        "judged_true": 2,
         "judged_false": 0,
         "unjudged": 0
       },
@@ -94,10 +94,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 741,
-        "routes": 33,
-        "agent_ready": 17,
-        "test_audit": 11
+        "index": 395,
+        "routes": 20,
+        "agent_ready": 12,
+        "test_audit": 6
       }
     },
     {
@@ -143,10 +143,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 928,
-        "routes": 40,
-        "agent_ready": 114,
-        "test_audit": 23
+        "index": 510,
+        "routes": 24,
+        "agent_ready": 77,
+        "test_audit": 15
       }
     },
     {
@@ -192,10 +192,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 726,
-        "routes": 24,
-        "agent_ready": 10,
-        "test_audit": 11
+        "index": 384,
+        "routes": 13,
+        "agent_ready": 13,
+        "test_audit": 5
       }
     },
     {
@@ -219,7 +219,7 @@
         "issues": {
           "high": 0,
           "medium": 0,
-          "low": 1
+          "low": 0
         },
         "agent_ready_pct": 100,
         "graded_issues": 0,
@@ -241,10 +241,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 738,
-        "routes": 27,
-        "agent_ready": 16,
-        "test_audit": 12
+        "index": 405,
+        "routes": 15,
+        "agent_ready": 13,
+        "test_audit": 6
       }
     },
     {
@@ -290,10 +290,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 952,
-        "routes": 24,
-        "agent_ready": 17,
-        "test_audit": 9
+        "index": 412,
+        "routes": 14,
+        "agent_ready": 13,
+        "test_audit": 5
       }
     },
     {
@@ -343,10 +343,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 883,
-        "routes": 25,
-        "agent_ready": 8,
-        "test_audit": 10
+        "index": 452,
+        "routes": 16,
+        "agent_ready": 5,
+        "test_audit": 5
       }
     },
     {
@@ -396,10 +396,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 734,
-        "routes": 24,
-        "agent_ready": 5,
-        "test_audit": 10
+        "index": 448,
+        "routes": 14,
+        "agent_ready": 9,
+        "test_audit": 5
       }
     },
     {
@@ -449,10 +449,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 718,
-        "routes": 27,
-        "agent_ready": 19,
-        "test_audit": 11
+        "index": 431,
+        "routes": 16,
+        "agent_ready": 13,
+        "test_audit": 8
       }
     },
     {
@@ -502,10 +502,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 685,
-        "routes": 21,
-        "agent_ready": 4,
-        "test_audit": 9
+        "index": 366,
+        "routes": 12,
+        "agent_ready": 3,
+        "test_audit": 4
       }
     }
   ]

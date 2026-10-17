@@ -65,7 +65,12 @@ for (const r of REPOS) {
     } catch {
       continue;
     }
-    ensureIndex(dir, { build: true, sync: true, log: () => {} });
+    try {
+      ensureIndex(dir, { build: true, sync: true, log: () => {} });
+    } catch (e) {
+      process.stderr.write(`${r.name} ${c.sha.slice(0, 8)} skipped: ${e.message.slice(0, 120)}\n`);
+      continue;
+    }
     const range = `${c.sha}^..${c.sha}`;
     let base;
     try {
@@ -82,13 +87,16 @@ for (const r of REPOS) {
     const g = openGraph(dir);
     const inv = routeInventory(g);
     const claimedLines = new Set(touched.flatMap((id) => inv.routes.filter((x) => x.id === id).flatMap((x) => footprintOf(g, x).map((n) => `${n.file}:${n.start}`))));
-    const other = inv.routes.find((x) => !touched.includes(x.id) && x.end > x.start && !claimedLines.has(`${x.file}:${x.start}`) && !c.files.includes(x.file));
+    // Plant inside a function body (after a line ending in `{`), so the code still parses:
+    // between `Router()` and `.post(…)` a statement would break the chain.
+    const bodyLine = (x) => (g.lines(x.file) ?? []).slice(x.start - 1, x.end - 1).findIndex((l) => /\{\s*$/.test(l));
+    const other = inv.routes.find((x) => !touched.includes(x.id) && x.end > x.start && !claimedLines.has(`${x.file}:${x.start}`) && !c.files.includes(x.file) && bodyLine(x) >= 0);
     let stray = null;
     if (other) {
       const file = path.join(dir, other.file);
       const orig = fs.readFileSync(file, "utf8");
       const lines = orig.split("\n");
-      lines.splice(other.end - 1, 0, "  void 0; // planted by done-replay");
+      lines.splice(other.start + bodyLine(other), 0, "  void 0; // planted by done-replay");
       fs.writeFileSync(file, lines.join("\n"));
       const d = await doneWithoutSpec(dir, { claims: touched, range: `${c.sha}^` });
       stray = { route: other.id, caught: d.problems.some((p) => p.startsWith("stray:") && p.includes(other.file)) };

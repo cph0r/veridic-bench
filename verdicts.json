@@ -190,8 +190,8 @@
         "POSTs with fetch and never looks at the response"
       ],
       "test/cypress/e2e/deluxe.spec.ts:3": [
-        true,
-        "visits a page; no check"
+        false,
+        "checks with cy.expectChallengeSolved after a nested template literal; an earlier verdict misread it, and Veridic's code blanking missed it until nested templates were handled"
       ],
       "test/cypress/e2e/totpSetup.spec.ts:11": [
         true,
