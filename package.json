@@ -1,0 +1,10 @@
+{
+  "name": "veridic-bench",
+  "private": true,
+  "description": "Reproducible benchmark of Veridic on 10 public Express apps",
+  "type": "module",
+  "engines": { "node": ">=22.5" },
+  "scripts": { "bench": "node run.mjs" },
+  "dependencies": { "veridic": "0.4.1" },
+  "license": "MIT"
+}
