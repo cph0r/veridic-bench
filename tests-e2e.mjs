@@ -44,11 +44,14 @@ const veridic = (cwd, a) => {
     return { error: (r.stderr || r.stdout).slice(0, 300) };
   }
 };
+// Both arms run without the user's own plugins, hooks and MCP servers: only this repo's
+// settings, plus the Veridic plugin for B.
+const ISOLATED = ["--setting-sources", "project,local", "--strict-mcp-config", "--mcp-config", '{"mcpServers":{}}'];
 const claude = (cwd, prompt, withPlugin) => {
   const t0 = Date.now();
   const r = spawnSync(
     "claude",
-    ["-p", prompt, ...(withPlugin ? ["--plugin-dir", ROOT] : []), "--output-format", "json", "--model", model, "--max-budget-usd", String(budget), "--permission-mode", "acceptEdits",
+    ["-p", prompt, ...(withPlugin ? ["--plugin-dir", ROOT] : []), ...ISOLATED, "--output-format", "json", "--model", model, "--max-budget-usd", String(budget), "--permission-mode", "acceptEdits",
       "--allowedTools", `${withPlugin ? "Bash(veridic:*) Agent " : ""}Bash(npx:*) Bash(npm:*) Bash(node:*) Read Write Edit Glob Grep`],
     { cwd, encoding: "utf8", input: "", maxBuffer: 64 << 20, env: { ...process.env, PATH: `${path.join(ROOT, "bin")}:${process.env.PATH}` }, timeout: 90 * 60 * 1000 },
   );
@@ -59,7 +62,7 @@ const claude = (cwd, prompt, withPlugin) => {
     out = { is_error: true, result: (r.stderr || r.stdout || "").slice(0, 400) };
   }
   // A run that ends at once (a usage limit is reported as a normal result) must show why.
-  return { cost: out.total_cost_usd ?? null, minutes: Math.round((Date.now() - t0) / 6000) / 10, turns: out.num_turns ?? null, error: out.is_error ? String(out.subtype ?? out.result).slice(0, 200) : null, reply: String(out.result ?? "").slice(0, 400) };
+  return { cost: out.total_cost_usd ?? null, minutes: Math.round((Date.now() - t0) / 6000) / 10, api_minutes: out.duration_api_ms ? Math.round(out.duration_api_ms / 6000) / 10 : null, turns: out.num_turns ?? null, error: out.is_error ? String(out.subtype ?? out.result).slice(0, 200) : null, reply: String(out.result ?? "").slice(0, 400) };
 };
 const risk = (m) => (m.moves_money ? 1e6 : 0) + m.issues.high * 1e4 + m.issues.medium * 100 + m.routes;
 
@@ -124,11 +127,11 @@ for (const r of args.includes("--rescore") ? [] : repos.filter((x) => (only.leng
 
 fs.writeFileSync(path.join(HERE, "tests-e2e.json"), JSON.stringify(results, null, 2) + "\n");
 const sum = (ms, k) => ms.reduce((n, m) => n + (m[k] ?? 0), 0);
-const rows = results.flatMap((x) => ["A", "B"].map((arm) => { const a = x.arms[arm]; return `| ${x.repo} | ${arm === "B" ? "B: /veridic:tests" : "A: plain prompt"} | ${sum(x.before, "counted")}/${sum(x.before, "rules")} → **${sum(a.modules, "counted")}/${sum(a.modules, "rules")}** | ${sum(a.modules, "broken")} | ${sum(a.modules, "failing")} | ${(() => { const c = sum(a.modules.map((m) => m.mutation ?? {}), "caught"), n = sum(a.modules.map((m) => m.mutation ?? {}), "sampled"); return n ? `${c}/${n}` : "—"; })()} | ${a.non_test_changes.length} | $${(a.cost ?? 0).toFixed(2)} | ${a.minutes} | ${a.turns ?? "—"} |`; }));
+const rows = results.flatMap((x) => ["A", "B"].map((arm) => { const a = x.arms[arm]; return `| ${x.repo} | ${arm === "B" ? "B: /veridic:tests" : "A: plain prompt"} | ${sum(x.before, "counted")}/${sum(x.before, "rules")} → **${sum(a.modules, "counted")}/${sum(a.modules, "rules")}** | ${sum(a.modules, "broken")} | ${sum(a.modules, "failing")} | ${(() => { const c = sum(a.modules.map((m) => m.mutation ?? {}), "caught"), n = sum(a.modules.map((m) => m.mutation ?? {}), "sampled"); return n ? `${c}/${n}` : "—"; })()} | ${a.non_test_changes.length} | $${(a.cost ?? 0).toFixed(2)} | ${a.minutes}${a.api_minutes != null ? ` (${a.api_minutes} model)` : ""} | ${a.turns ?? "—"} |`; }));
 fs.writeFileSync(path.join(HERE, "TESTS-E2E.md"), [
   "# /veridic:tests end to end",
   "",
-  `Claude Code (${model}) on fresh copies of ${results.length} public app(s): specs written for the two riskiest modules with \`/veridic:specs\`, then the same copy given to two arms. B runs \`/veridic:tests\`; A gets a plain prompt with no Veridic plugin. Scored with \`veridic tests --module --run\`. Reproduce with \`node tests-e2e.mjs\` (it installs the apps' dependencies with scripts off, runs their tests, and spends Claude Code usage).`,
+  `Claude Code (${model}) on fresh copies of ${results.length} public app(s): specs written for the two riskiest modules with \`/veridic:specs\`, then the same copy given to two arms. B runs \`/veridic:tests\`; A gets a plain prompt with no Veridic plugin. Scored with \`veridic tests --module --run\`. Both arms run without the user's own plugins, hooks and MCP servers. Reproduce with \`node tests-e2e.mjs\` (it installs the apps' dependencies with scripts off, runs their tests, and spends Claude Code usage).`,
   "",
   "| app | arm | rules counted (before → after) | broken (proven) | failing | tests that caught a code change | non-test files changed | cost | minutes | turns |",
   "|---|---|---|---|---|---|---|---|---|---|",
