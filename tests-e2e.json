@@ -7,104 +7,108 @@
       "articles",
       "auth"
     ],
-    "specs_cost": 1.5258756000000002,
+    "specs_cost": 0.5764326000000003,
     "before": [
       {
         "id": "articles",
-        "rules": 22,
+        "rules": 21,
         "tested": 0,
         "broken": 0,
         "failing": 0,
         "weak": 0,
         "counted": 0,
-        "mutation": [
-          null
-        ],
+        "mutation": {
+          "caught": 0,
+          "sampled": 0
+        },
         "error": null
       },
       {
         "id": "auth",
-        "rules": 18,
+        "rules": 17,
         "tested": 0,
         "broken": 0,
         "failing": 0,
         "weak": 0,
         "counted": 0,
-        "mutation": [
-          null
-        ],
+        "mutation": {
+          "caught": 0,
+          "sampled": 0
+        },
         "error": null
       }
     ],
     "arms": {
       "B": {
-        "cost": 2.67106,
-        "minutes": 108.7,
-        "turns": 6,
+        "cost": 0.6168469,
+        "minutes": 2.5,
+        "api_minutes": 3.4,
+        "turns": 8,
         "error": null,
-        "reply": "Both modules now have tests. Articles has 20 of 22 rules tested and 2 broken; auth has 17 of 18 tested and 1 weak. I re-ran `veridic tests --run` on each module to get these totals.\n\n| Module | Before | After |\n|---|---|---|\n| articles | 22 rules, 22 untested | 20 tested, 2 broken, 0 failing, 0 weak, 0 untested |\n| auth | 18 rules, 18 untested | 17 tested, 0 broken, 0 failing, 1 weak, 0 untested |",
+        "reply": "Both modules now have tests, and Veridic's run shows no untested rules. Three rules are `broken`: the code violates them today, and an expected-failure test (`test.failing`) proves it.\n\n| module | rules | before | after |\n|---|---|---|---|\n| articles | 21 | 0 tested, 21 untested | 19 tested, 2 broken, 0 untested |\n| auth | 17 | 0 tested, 17 untested | 16 tested, 1 broken, 0 untested |\n\n**Broken ru",
         "modules": [
           {
             "id": "articles",
-            "rules": 22,
-            "tested": 20,
+            "rules": 21,
+            "tested": 19,
             "broken": 2,
             "failing": 0,
             "weak": 0,
-            "counted": 22,
+            "counted": 21,
             "mutation": {
               "caught": 4,
-              "sampled": 4
+              "sampled": 5
             },
             "error": null
           },
           {
             "id": "auth",
-            "rules": 18,
+            "rules": 17,
+            "tested": 16,
+            "broken": 1,
+            "failing": 0,
+            "weak": 0,
+            "counted": 17,
+            "mutation": {
+              "caught": 2,
+              "sampled": 5
+            },
+            "error": null
+          }
+        ],
+        "non_test_changes": [],
+        "dir": "tests-realworld-B-90VHbt"
+      },
+      "A": {
+        "cost": 0.6895533000000001,
+        "minutes": 3.4,
+        "api_minutes": 3.2,
+        "turns": 29,
+        "error": null,
+        "reply": "I added tests for every rule in `specs/articles/spec.md` (FR-001 to FR-017) and `specs/auth/spec.md` (FR-001 to FR-015). Both new files pass: 46 tests for articles and 37 for auth.\n\nThe new files are:\n- `src/tests/routes/article.routes.test.ts`\n- `src/tests/routes/auth.routes.test.ts`\n- `src/tests/slow-buffer-polyfill.ts`, a small helper both test files import first (the reason is below)\n\nEvery te",
+        "modules": [
+          {
+            "id": "articles",
+            "rules": 21,
             "tested": 17,
             "broken": 0,
             "failing": 0,
             "weak": 1,
             "counted": 17,
             "mutation": {
-              "caught": 2,
-              "sampled": 4
-            },
-            "error": null
-          }
-        ],
-        "non_test_changes": [],
-        "dir": "tests-realworld-B-9HsTeg"
-      },
-      "A": {
-        "cost": 0.7010716,
-        "minutes": 43.8,
-        "turns": 24,
-        "error": null,
-        "reply": "I wrote tests for every rule in `specs/articles/spec.md` (FR-001 to FR-018) and `specs/auth/spec.md` (FR-001 to FR-015), plus auth INV-2 and INV-3. All 69 tests pass. I didn't touch the existing tests or any source files.\n\nEvery test name starts with its rule id, like `it(\"FR-001: ...\")`. The tests mock Prisma with the repo's existing `prisma-mock`.\n\n**New files, all under `src/tests/`:**\n- `route",
-        "modules": [
-          {
-            "id": "articles",
-            "rules": 22,
-            "tested": 1,
-            "broken": 0,
-            "failing": 0,
-            "weak": 19,
-            "counted": 1,
-            "mutation": {
-              "caught": 0,
-              "sampled": 1
+              "caught": 4,
+              "sampled": 5
             },
             "error": null
           },
           {
             "id": "auth",
-            "rules": 18,
-            "tested": 13,
+            "rules": 17,
+            "tested": 16,
             "broken": 0,
             "failing": 0,
-            "weak": 4,
-            "counted": 13,
+            "weak": 0,
+            "counted": 16,
             "mutation": {
               "caught": 3,
               "sampled": 5
@@ -113,7 +117,7 @@
           }
         ],
         "non_test_changes": [],
-        "dir": "tests-realworld-A-rTOk8O"
+        "dir": "tests-realworld-A-TAdG9I"
       }
     }
   }
