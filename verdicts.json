@@ -235,6 +235,10 @@
     "get-that-writes GET /api/users/stripe": [
       true,
       "a GET that creates a Stripe billing-portal or checkout session (app/api/users/stripe/route.ts:25,35)"
+    ],
+    "id-param-without-caller-scope PATCH /api/posts/:postId": [
+      true,
+      "verifyCurrentUserHasAccessToPost filters by authorId: session?.user.id; with no session that's undefined, which Prisma ignores, so any visitor passes for an existing post (route.ts:83-92)"
     ]
   },
   "papermark": {
@@ -277,6 +281,10 @@
     "get-that-writes GET /api/teams": [
       true,
       "GET creates a default team with the caller as ADMIN when the user has no teams (pages/api/teams/index.ts:61-84)"
+    ],
+    "id-param-without-caller-scope POST /api/ai/chat/:chatId/messages": [
+      true,
+      "without a session it trusts a viewerId from the query; validateChatAccess only compares it with chat.viewerId, so anyone with a chatId and its viewerId can post (messages/route.ts:44-60, validate-chat-access.ts:58-73)"
     ]
   },
   "inbox-zero": {
