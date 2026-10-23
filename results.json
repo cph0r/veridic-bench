@@ -1,6 +1,6 @@
 {
-  "generated": "2026-10-17",
-  "veridic": "0.5.0",
+  "generated": "2026-10-23",
+  "veridic": "0.11.0",
   "results": [
     {
       "name": "juice-shop",
@@ -45,10 +45,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 1439,
-        "routes": 174,
-        "agent_ready": 373,
-        "test_audit": 44
+        "index": 9607,
+        "routes": 323,
+        "agent_ready": 700,
+        "test_audit": 78
       }
     },
     {
@@ -94,10 +94,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 395,
-        "routes": 20,
-        "agent_ready": 12,
-        "test_audit": 6
+        "index": 990,
+        "routes": 38,
+        "agent_ready": 23,
+        "test_audit": 11
       }
     },
     {
@@ -143,10 +143,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 510,
-        "routes": 24,
-        "agent_ready": 77,
-        "test_audit": 15
+        "index": 1414,
+        "routes": 45,
+        "agent_ready": 143,
+        "test_audit": 27
       }
     },
     {
@@ -192,10 +192,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 384,
-        "routes": 13,
-        "agent_ready": 13,
-        "test_audit": 5
+        "index": 954,
+        "routes": 24,
+        "agent_ready": 26,
+        "test_audit": 10
       }
     },
     {
@@ -241,10 +241,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 405,
-        "routes": 15,
-        "agent_ready": 13,
-        "test_audit": 6
+        "index": 1028,
+        "routes": 29,
+        "agent_ready": 27,
+        "test_audit": 13
       }
     },
     {
@@ -290,10 +290,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 412,
-        "routes": 14,
-        "agent_ready": 13,
-        "test_audit": 5
+        "index": 1034,
+        "routes": 26,
+        "agent_ready": 24,
+        "test_audit": 9
       }
     },
     {
@@ -343,10 +343,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 452,
-        "routes": 16,
-        "agent_ready": 5,
-        "test_audit": 5
+        "index": 1183,
+        "routes": 30,
+        "agent_ready": 10,
+        "test_audit": 9
       }
     },
     {
@@ -396,10 +396,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 448,
-        "routes": 14,
-        "agent_ready": 9,
-        "test_audit": 5
+        "index": 946,
+        "routes": 26,
+        "agent_ready": 17,
+        "test_audit": 9
       }
     },
     {
@@ -449,10 +449,10 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 431,
-        "routes": 16,
-        "agent_ready": 13,
-        "test_audit": 8
+        "index": 961,
+        "routes": 25,
+        "agent_ready": 24,
+        "test_audit": 12
       }
     },
     {
@@ -502,10 +502,275 @@
         "nothing_unjudged": 0
       },
       "ms": {
-        "index": 366,
-        "routes": 12,
-        "agent_ready": 3,
-        "test_audit": 4
+        "index": 853,
+        "routes": 26,
+        "agent_ready": 5,
+        "test_audit": 9
+      }
+    },
+    {
+      "name": "saas-starter",
+      "set": "nextjs",
+      "url": "https://github.com/nextjs/saas-starter",
+      "sha": "6e33e58b1e553a41fe22e6b941a7229a002de361",
+      "files": 55,
+      "routes": {
+        "found": 14,
+        "independent": 14,
+        "files_mismatched": []
+      },
+      "agent_ready": {
+        "tools": 14,
+        "reads": 2,
+        "writes": 12,
+        "destructive": 0,
+        "move_money": 6,
+        "gets_that_write": 1,
+        "issues": {
+          "high": 1,
+          "medium": 0,
+          "low": 0
+        },
+        "agent_ready_pct": 92.9,
+        "graded_issues": 1,
+        "judged_true": 1,
+        "judged_false": 0,
+        "unjudged": 0
+      },
+      "tests": {
+        "test_files": 0,
+        "tests": 0,
+        "strong": 0,
+        "weak": 0,
+        "unasserted": 0,
+        "empty": 0,
+        "skipped": 0,
+        "checking_pct": null,
+        "nothing_judged_true": 0,
+        "nothing_judged_false": 0,
+        "nothing_unjudged": 0
+      },
+      "ms": {
+        "index": 1044,
+        "routes": 57,
+        "agent_ready": 63,
+        "test_audit": 10
+      }
+    },
+    {
+      "name": "nextjs-subscription-payments",
+      "set": "nextjs",
+      "url": "https://github.com/vercel/nextjs-subscription-payments",
+      "sha": "bdd0813206e47e6b218d42f15a7976c8a0d3c3eb",
+      "files": 90,
+      "routes": {
+        "found": 14,
+        "independent": 14,
+        "files_mismatched": []
+      },
+      "agent_ready": {
+        "tools": 14,
+        "reads": 5,
+        "writes": 8,
+        "destructive": 1,
+        "move_money": 3,
+        "gets_that_write": 0,
+        "issues": {
+          "high": 0,
+          "medium": 0,
+          "low": 0
+        },
+        "agent_ready_pct": 100,
+        "graded_issues": 0,
+        "judged_true": 0,
+        "judged_false": 0,
+        "unjudged": 0
+      },
+      "tests": {
+        "test_files": 0,
+        "tests": 0,
+        "strong": 0,
+        "weak": 0,
+        "unasserted": 0,
+        "empty": 0,
+        "skipped": 0,
+        "checking_pct": null,
+        "nothing_judged_true": 0,
+        "nothing_judged_false": 0,
+        "nothing_unjudged": 0
+      },
+      "ms": {
+        "index": 1472,
+        "routes": 34,
+        "agent_ready": 42,
+        "test_audit": 10
+      }
+    },
+    {
+      "name": "taxonomy",
+      "set": "nextjs",
+      "url": "https://github.com/shadcn-ui/taxonomy",
+      "sha": "298a8857c7128a0d121e7f699dfd729f23b3966d",
+      "files": 188,
+      "routes": {
+        "found": 9,
+        "independent": 9,
+        "files_mismatched": []
+      },
+      "agent_ready": {
+        "tools": 9,
+        "reads": 5,
+        "writes": 4,
+        "destructive": 0,
+        "move_money": 2,
+        "gets_that_write": 1,
+        "issues": {
+          "high": 1,
+          "medium": 1,
+          "low": 1
+        },
+        "agent_ready_pct": 77.8,
+        "graded_issues": 2,
+        "judged_true": 2,
+        "judged_false": 0,
+        "unjudged": 0
+      },
+      "tests": {
+        "test_files": 0,
+        "tests": 0,
+        "strong": 0,
+        "weak": 0,
+        "unasserted": 0,
+        "empty": 0,
+        "skipped": 0,
+        "checking_pct": null,
+        "nothing_judged_true": 0,
+        "nothing_judged_false": 0,
+        "nothing_unjudged": 0
+      },
+      "ms": {
+        "index": 1237,
+        "routes": 41,
+        "agent_ready": 22,
+        "test_audit": 11
+      }
+    },
+    {
+      "name": "papermark",
+      "set": "nextjs",
+      "url": "https://github.com/papermark/papermark",
+      "sha": "ed19717ec02a1ac79aecf5569159aa9d2d869312",
+      "files": 1767,
+      "routes": {
+        "found": 383,
+        "independent": 384,
+        "files_mismatched": [
+          "ee/features/billing/cancellation/api/automatic-unpause-route.ts",
+          "ee/features/conversations/api/conversations-route.ts",
+          "ee/features/conversations/api/team-faqs-route.ts",
+          "ee/features/conversations/api/toggle-conversations-route.ts",
+          "ee/features/dataroom-invitations/api/group-invite.ts",
+          "ee/features/dataroom-invitations/api/link-invite.ts",
+          "ee/features/dataroom-invitations/api/uninvited.ts",
+          "lib/api/links/bulk-import.ts",
+          "pages/api/file/tus-viewer/[[...file]].ts",
+          "pages/api/conversations/[[...conversations]].ts",
+          "pages/api/internal/billing/automatic-unpause.ts",
+          "pages/api/teams/[teamId]/datarooms/[id]/conversations/toggle-conversations.ts",
+          "pages/api/teams/[teamId]/datarooms/[id]/faqs/[faqId].ts",
+          "pages/api/teams/[teamId]/datarooms/[id]/faqs/index.ts",
+          "pages/api/teams/[teamId]/datarooms/[id]/groups/[groupId]/invite.ts",
+          "pages/api/teams/[teamId]/datarooms/[id]/groups/[groupId]/uninvited.ts",
+          "pages/api/teams/[teamId]/datarooms/[id]/links/[linkId]/invite.ts",
+          "pages/api/teams/[teamId]/datarooms/[id]/links/bulk.ts",
+          "pages/api/teams/[teamId]/documents/[id]/links/bulk.ts"
+        ]
+      },
+      "agent_ready": {
+        "tools": 383,
+        "reads": 215,
+        "writes": 147,
+        "destructive": 21,
+        "move_money": 3,
+        "gets_that_write": 6,
+        "issues": {
+          "high": 2,
+          "medium": 9,
+          "low": 8
+        },
+        "agent_ready_pct": 97.1,
+        "graded_issues": 11,
+        "judged_true": 6,
+        "judged_false": 5,
+        "unjudged": 0
+      },
+      "tests": {
+        "test_files": 0,
+        "tests": 0,
+        "strong": 0,
+        "weak": 0,
+        "unasserted": 0,
+        "empty": 0,
+        "skipped": 0,
+        "checking_pct": null,
+        "nothing_judged_true": 0,
+        "nothing_judged_false": 0,
+        "nothing_unjudged": 0
+      },
+      "ms": {
+        "index": 14276,
+        "routes": 992,
+        "agent_ready": 4488,
+        "test_audit": 28
+      }
+    },
+    {
+      "name": "inbox-zero",
+      "set": "nextjs",
+      "url": "https://github.com/elie222/inbox-zero",
+      "sha": "83290dedc535d56c6f7cc2d0bd4ec2c57314bef3",
+      "files": 4852,
+      "routes": {
+        "found": 605,
+        "independent": 605,
+        "files_mismatched": []
+      },
+      "agent_ready": {
+        "tools": 605,
+        "reads": 450,
+        "writes": 111,
+        "destructive": 44,
+        "move_money": 8,
+        "gets_that_write": 40,
+        "issues": {
+          "high": 2,
+          "medium": 40,
+          "low": 11
+        },
+        "agent_ready_pct": 93.1,
+        "graded_issues": 42,
+        "judged_true": 36,
+        "judged_false": 6,
+        "unjudged": 0
+      },
+      "tests": {
+        "test_files": 1283,
+        "tests": 9199,
+        "strong": 9125,
+        "weak": 61,
+        "unasserted": 13,
+        "empty": 0,
+        "skipped": 0,
+        "checking_pct": 99.9,
+        "nothing_judged_true": 0,
+        "nothing_judged_false": 0,
+        "nothing_unjudged": 13
+      },
+      "ms": {
+        "index": 138861,
+        "routes": 1832,
+        "agent_ready": 49923,
+        "test_audit": 903
       }
     }
   ]

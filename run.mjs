@@ -35,7 +35,9 @@ const git = (cwd, a) => execFileSync("git", a, { cwd, encoding: "utf8", stdio: [
 /** Clone the app at its pinned commit (shallow), or reuse the clone. */
 function checkout(r) {
   const dir = path.join(cache, r.name);
-  if (fs.existsSync(path.join(dir, ".git")) && git(dir, ["rev-parse", "HEAD"]) === r.sha) return dir;
+  // A clone left half-made (an interrupted run) is cloned again.
+  const head = () => { try { return git(dir, ["rev-parse", "HEAD"]); } catch { return null; } };
+  if (fs.existsSync(path.join(dir, ".git")) && head() === r.sha) return dir;
   fs.rmSync(dir, { recursive: true, force: true });
   fs.mkdirSync(dir, { recursive: true });
   git(dir, ["init", "-q"]);
