@@ -1,5 +1,5 @@
 {
-  "_about": "Public Express apps Veridic is measured on, pinned to exact commits. `dev` apps were used while improving route discovery and effect tracing; `holdout` apps were first run only after that, and their first-run results are recorded in holdout_first_run.",
+  "_about": "Public Express and Next.js apps Veridic is measured on, pinned to exact commits. `dev` apps were used while improving route discovery and effect tracing; `holdout` apps were first run only after that, and their first-run results are recorded in holdout_first_run. `nextjs` apps (framework: nextjs) are counted by a separate independent scan for Next.js routes.",
   "repos": [
     { "name": "juice-shop", "url": "https://github.com/juice-shop/juice-shop", "sha": "399fba76194305a312693eee44f4df64bdf0c3ce", "set": "dev", "about": "OWASP Juice Shop: intentionally insecure shop (TypeScript)" },
     { "name": "NodeGoat", "url": "https://github.com/OWASP/NodeGoat", "sha": "c5cb68a7084e4ae7dcc60e6a98768720a81841e8", "set": "dev", "about": "OWASP NodeGoat: intentionally insecure app (CommonJS)" },
@@ -10,7 +10,12 @@
     { "name": "node-express-mongoose-demo", "url": "https://github.com/madhums/node-express-mongoose-demo", "sha": "8a134ab5deeef553d6de51d91d4ed8ee378acace", "set": "holdout", "about": "Mongoose demo, routes registered on an app parameter" },
     { "name": "bulletproof-nodejs", "url": "https://github.com/santiq/bulletproof-nodejs", "sha": "7ce1b4690c4e96659cb1ed0d367b08b3ab35a24b", "set": "holdout", "about": "Layered TypeScript architecture, dependency injection" },
     { "name": "express-rest-boilerplate", "url": "https://github.com/danielfsousa/express-rest-boilerplate", "sha": "b8bed6d7cfce3cf2ef89ec1b5e47b52dfc50e874", "set": "holdout", "about": "REST boilerplate, Mongoose, role middleware" },
-    { "name": "express-mongoose-es6-rest-api", "url": "https://github.com/kunalkapadia/express-mongoose-es6-rest-api", "sha": "247fedde56e380fae720ce65ff65a7d0b034b3e2", "set": "holdout", "about": "Small ES6 REST API, Mongoose" }
+    { "name": "express-mongoose-es6-rest-api", "url": "https://github.com/kunalkapadia/express-mongoose-es6-rest-api", "sha": "247fedde56e380fae720ce65ff65a7d0b034b3e2", "set": "holdout", "about": "Small ES6 REST API, Mongoose" },
+    { "name": "saas-starter", "url": "https://github.com/nextjs/saas-starter", "sha": "6e33e58b1e553a41fe22e6b941a7229a002de361", "set": "nextjs", "framework": "nextjs", "about": "Next.js SaaS starter: app router, server actions, Drizzle, Stripe" },
+    { "name": "nextjs-subscription-payments", "url": "https://github.com/vercel/nextjs-subscription-payments", "sha": "bdd0813206e47e6b218d42f15a7976c8a0d3c3eb", "set": "nextjs", "framework": "nextjs", "about": "Vercel's subscription starter: Supabase auth and data, Stripe" },
+    { "name": "taxonomy", "url": "https://github.com/shadcn-ui/taxonomy", "sha": "298a8857c7128a0d121e7f699dfd729f23b3966d", "set": "nextjs", "framework": "nextjs", "about": "shadcn's Taxonomy: app router + pages/api, NextAuth, Prisma, Stripe" },
+    { "name": "papermark", "url": "https://github.com/papermark/papermark", "sha": "ed19717ec02a1ac79aecf5569159aa9d2d869312", "set": "nextjs", "framework": "nextjs", "about": "Papermark document sharing: pages/api and app router, NextAuth, Prisma" },
+    { "name": "inbox-zero", "url": "https://github.com/elie222/inbox-zero", "sha": "83290dedc535d56c6f7cc2d0bd4ec2c57314bef3", "set": "nextjs", "framework": "nextjs", "about": "Inbox Zero email assistant: monorepo, app router, server actions, Prisma" }
   ],
   "holdout_first_run": {
     "_about": "Route discovery on the holdout apps the first time Veridic saw them, before the fixes they prompted (an app handed into a function).",

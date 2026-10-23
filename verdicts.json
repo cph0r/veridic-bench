@@ -224,5 +224,229 @@
         "a setup or clean-up step registered as a test"
       ]
     }
+  },
+  "saas-starter": {
+    "get-that-writes GET /api/stripe/checkout": [
+      true,
+      "the Stripe success redirect is a GET that updates the team's subscription fields (app/api/stripe/checkout/route.ts:79-87)"
+    ]
+  },
+  "taxonomy": {
+    "get-that-writes GET /api/users/stripe": [
+      true,
+      "a GET that creates a Stripe billing-portal or checkout session (app/api/users/stripe/route.ts:25,35)"
+    ]
+  },
+  "papermark": {
+    "id-param-without-caller-scope POST /api/workflow-entry/link/:entryLinkId/verify": [
+      false,
+      "public by design: entryLinkId is a shareable workflow entry link; it only sends an OTP to the supplied email, rate-limited (verify/route.ts:80-128)"
+    ],
+    "id-param-without-caller-scope ALL /api/teams/:teamId/datarooms/:id/questions/*": [
+      false,
+      "handler only delegates to @/ee/features/conversations/api/team-questions-route, which does not exist at this commit (questions/[[...questions]].ts:3), so there is no reachable unscoped write to verify"
+    ],
+    "id-param-without-caller-scope POST /api/links/:id/upload": [
+      false,
+      "public-viewer upload gated by verifyDataroomSession(request, linkId, dataroomId) plus link.enableUpload and viewer/view checks scoped to link.teamId (upload/route.ts:134-197)"
+    ],
+    "get-that-writes GET /api/scim/v2.0/*": [
+      false,
+      "GET goes to jackson directorySyncController.requests.handle as a SCIM read; handleSCIMEvents writes only fire on user/group create/update/delete events from POST/PUT/PATCH/DELETE (route.ts:55-58,119-301)"
+    ],
+    "id-param-without-caller-scope POST /api/workflow-entry/link/:entryLinkId/access": [
+      false,
+      "public by design: entry link is a share token, and access requires a valid OTP bound to entryLinkId+email (access/route.ts:97-110)"
+    ],
+    "get-that-writes GET /api/integrations/slack/oauth/callback": [
+      true,
+      "GET deletes the redis state key and upserts installedIntegration credentials via installIntegration, then emails (callback/route.ts:46,101; install.ts:22)"
+    ],
+    "get-that-writes GET /api/agreements/signing/:agreementResponseId/download": [
+      true,
+      "fallback path fires mirrorSignedAgreementToStorage, which uploads to S3 and updates agreementResponse (download.ts:165-174; mirror.ts:184-198)"
+    ],
+    "get-that-writes GET /api/teams/:teamId/agreements/:agreementId/responses/:responseId/download": [
+      true,
+      "fallback path fires mirrorSignedAgreementToStorage, which uploads to S3 and updates agreementResponse (download.ts:128-136; mirror.ts:184-198)"
+    ],
+    "get-that-writes GET /api/teams/:teamId/domains/:domain/verify": [
+      true,
+      "GET updates domain.verified/lastChecked and can call verifyDomain on Vercel (verify.ts:127,143-169)"
+    ],
+    "get-that-writes GET /api/teams": [
+      true,
+      "GET creates a default team with the caller as ADMIN when the user has no teams (pages/api/teams/index.ts:61-84)"
+    ]
+  },
+  "inbox-zero": {
+    "get-that-writes GET /api/stripe/success": [
+      true,
+      "GET calls syncStripeDataToDb, which upserts the premium row (ee/billing/stripe/sync-stripe.ts:69,162)"
+    ],
+    "get-that-writes GET /api/user/trial-preview": [
+      false,
+      "only stripe.invoices.createPreview and subscriptions.retrieve, both read-only previews (trial-preview/route.ts:37,41)"
+    ],
+    "get-that-writes GET /api/cron/automation-jobs": [
+      true,
+      "cron run by GET enqueues due automation jobs and updates job/run rows (automation-jobs/route.ts:157,251)"
+    ],
+    "get-that-writes GET /api/cron/draft-cleanup": [
+      true,
+      "cron run by GET enqueues a draft-cleanup background job per account (draft-cleanup/route.ts:44)"
+    ],
+    "get-that-writes GET /api/cron/email-send-operation-retention": [
+      true,
+      "cron run by GET deletes expired scheduled emails and send operations (utils/email-send-operation-retention.ts:10,17)"
+    ],
+    "get-that-writes GET /api/cron/mobile-push-retention": [
+      true,
+      "cron run by GET deletes expired mobile push deliveries (utils/mobile-push-retention.ts:8)"
+    ],
+    "get-that-writes GET /api/cron/reasoning-retention": [
+      true,
+      "cron run by GET updateMany-clears old reasoning and draft sent text (utils/privacy/reasoning-retention.ts:61,106)"
+    ],
+    "get-that-writes GET /api/cron/scheduled-actions": [
+      true,
+      "cron run by GET executes due scheduled actions/emails and updates their status (scheduled-actions/route.ts:87,126)"
+    ],
+    "get-that-writes GET /api/google/calendar/callback": [
+      true,
+      "OAuth callback GET stores calendar connection tokens (utils/calendar/handle-calendar-callback.ts:95)"
+    ],
+    "get-that-writes GET /api/google/drive/callback": [
+      true,
+      "OAuth callback GET upserts the drive connection (utils/drive/handle-drive-callback.ts:249)"
+    ],
+    "get-that-writes GET /api/google/linking/callback": [
+      true,
+      "linking callback GET creates/merges accounts and deletes orphaned Account/User via handleAccountLinking (utils/user/orphaned-account.ts:31)"
+    ],
+    "get-that-writes GET /api/mail/v1/accounts/:accountId/operations/:commandId": [
+      false,
+      "GET shares the inspect handler, which only writes/sends for a held send parsed from the JSON body; Next.js drops GET bodies, so GET always returns 'uncertain' (operations/[commandId]/route.ts:92,104)"
+    ],
+    "get-that-writes GET /api/mcp/:integration/auth-url": [
+      true,
+      "generateOAuthUrl does dynamic client registration and upserts mcpIntegration metadata (utils/mcp/oauth.ts:433,548,554)"
+    ],
+    "get-that-writes GET /api/mcp/:integration/callback": [
+      true,
+      "OAuth callback GET saves tokens and syncMcpTools deletes/recreates tools (utils/mcp/sync-tools.ts:69)"
+    ],
+    "get-that-writes GET /api/mcp/:integration/provider-callback": [
+      true,
+      "callback GET upserts mcpIntegration/mcpConnection and replaces tools (provider-callback/route.ts:75,82,101)"
+    ],
+    "get-that-writes GET /api/meeting-recorder/schedule": [
+      true,
+      "cron run by GET deletes stale recording claims and re-requests transcripts (utils/meeting-recorder/reconcile.ts:882,1038)"
+    ],
+    "get-that-writes GET /api/mobile-auth/browser-start": [
+      true,
+      "startMobileSocialAuth stores a verificationToken row via storeToken (utils/mobile-auth/oauth-code.ts:245)"
+    ],
+    "get-that-writes GET /api/mobile-auth/callback": [
+      true,
+      "callback GET consumes (deletes) the state token and creates a mobile auth code row (utils/mobile-auth/oauth-code.ts:255,163)"
+    ],
+    "get-that-writes GET /api/outlook/calendar/callback": [
+      true,
+      "OAuth callback GET stores calendar connection tokens (utils/calendar/handle-calendar-callback.ts:95)"
+    ],
+    "get-that-writes GET /api/outlook/drive/callback": [
+      true,
+      "OAuth callback GET upserts the drive connection (utils/drive/handle-drive-callback.ts:249)"
+    ],
+    "get-that-writes GET /api/outlook/linking/callback": [
+      true,
+      "linking callback GET creates/merges accounts and deletes orphaned ones via handleAccountLinking (outlook/linking/callback/route.ts:253,322,435)"
+    ],
+    "get-that-writes GET /api/outlook/watch/all": [
+      true,
+      "cron run by GET creates Outlook subscriptions and updates emailAccount watch fields (outlook/watch/all/route.ts:94)"
+    ],
+    "get-that-writes GET /api/outlook/watch": [
+      true,
+      "GET creates managed Outlook subscriptions and persists them (utils/outlook/subscription-manager.ts:225)"
+    ],
+    "id-param-without-caller-scope POST /api/public/bookings/:id/cancel": [
+      false,
+      "public by design: cancelPublicBooking requires the secret cancel token matching booking.cancelTokenHash (utils/booking/public.ts:294)"
+    ],
+    "id-param-without-caller-scope POST /api/public/bookings/:id/reschedule": [
+      false,
+      "public by design: reschedulePublicBooking requires the secret token matching booking.cancelTokenHash (utils/booking/public.ts:382)"
+    ],
+    "get-that-writes GET /api/referrals/code": [
+      true,
+      "getOrCreateReferralCode writes user.referralCode when missing (utils/referral/referral-code.ts:53)"
+    ],
+    "get-that-writes GET /api/resend/digest/all": [
+      true,
+      "cron run by GET enqueues digest jobs for all accounts (resend/digest/all/route.ts:38)"
+    ],
+    "get-that-writes GET /api/resend/digest": [
+      true,
+      "GET sends the digest email to self with force: true (resend/digest/route.ts:48)"
+    ],
+    "get-that-writes GET /api/resend/inbox-health/all": [
+      true,
+      "cron run by GET enqueues inbox-health jobs for all accounts (resend/inbox-health/all/route.ts:56)"
+    ],
+    "get-that-writes GET /api/resend/inbox-health": [
+      true,
+      "GET sends the inbox health email to self and advances the window (resend/inbox-health/route.ts:41,238)"
+    ],
+    "get-that-writes GET /api/resend/summary/all": [
+      true,
+      "cron run by GET enqueues summary jobs for all accounts (resend/summary/all/route.ts:45)"
+    ],
+    "get-that-writes GET /api/resend/summary": [
+      true,
+      "GET sends the summary email to self (resend/summary/route.ts:44,282)"
+    ],
+    "get-that-writes GET /api/slack/callback": [
+      true,
+      "Slack OAuth callback GET upserts the messaging channel (utils/messaging/providers/slack/handle-slack-callback.ts:370)"
+    ],
+    "get-that-writes GET /api/user/drive/preview": [
+      true,
+      "preview really files attachments: uploads to Drive and updates documentFiling rows (utils/drive/filing-engine.ts:213,263,287)"
+    ],
+    "get-that-writes GET /api/user/error-messages": [
+      true,
+      "getUserErrorMessages updates user.errorMessages (clears trial flag, adds recovery action) (utils/error-messages/index.ts:60,409)"
+    ],
+    "get-that-writes GET /api/user/signature": [
+      true,
+      "getComposeSignature calls getOrCreateReferralCode, which writes user.referralCode (utils/referral/referral-code.ts:53)"
+    ],
+    "get-that-writes GET /api/v1/rules/:id": [
+      false,
+      "handler is a scoped findFirst; only write is the auth middleware's apiKey lastUsedAt bookkeeping (utils/api-auth.ts:59)"
+    ],
+    "get-that-writes GET /api/v1/rules": [
+      false,
+      "handler is a scoped findMany; only write is the auth middleware's apiKey lastUsedAt bookkeeping (utils/api-auth.ts:59)"
+    ],
+    "get-that-writes GET /api/watch/all": [
+      true,
+      "cron run by GET renews watches via ensureEmailAccountsWatched and notifies lapsed watches (watch/all/route.ts:31,36)"
+    ],
+    "get-that-writes GET /api/watch": [
+      true,
+      "ensureEmailAccountsWatched creates provider watches and updates emailAccount (utils/email/watch-manager.ts:158)"
+    ],
+    "get-that-writes GET /t/:token": [
+      true,
+      "tracking pixel GET records the open, updating sentMessageOpen counts (sent-message-open.server.ts:137,142)"
+    ],
+    "get-that-writes HEAD /t/:token": [
+      true,
+      "HEAD = GET (app/t/[token]/route.ts:52), so HEAD also records the open via recordSentMessageOpen"
+    ]
   }
 }

@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-// Benchmark Veridic on public Express apps, pinned to exact commits (repos.json).
+// Benchmark Veridic on public Express and Next.js apps, pinned to exact commits (repos.json).
 // For each app: index it, find its routes (and compare with an independent scan),
 // run the agent-readiness check (and score its issues against verdicts.json),
 // and audit its tests. Writes results.json and RESULTS.md next to this file.
@@ -19,7 +19,7 @@ import { openGraph } from "veridic/core/graph.mjs";
 import { routeInventory } from "veridic/core/routes.mjs";
 import { effectManifest, readiness } from "veridic/core/effects.mjs";
 import { auditTests } from "veridic/core/tests.mjs";
-import { independentScan } from "./scan.mjs";
+import { independentScan, independentNextScan } from "./scan.mjs";
 
 const HERE = import.meta.dirname;
 const ROOT = path.dirname(createRequire(import.meta.url).resolve("veridic/package.json"));
@@ -65,7 +65,7 @@ for (const r of repos.filter((x) => !only.length || only.includes(x.name))) {
   const [inv, routesMs] = timed(() => routeInventory(openGraph(dir)));
   const found = {};
   for (const x of inv.routes) found[x.file] = (found[x.file] ?? 0) + 1;
-  const scan = independentScan(dir);
+  const scan = r.framework === "nextjs" ? independentNextScan(dir) : independentScan(dir);
   const sum = (o) => Object.values(o).reduce((a, b) => a + b, 0);
   const mismatched = [...new Set([...Object.keys(found), ...Object.keys(scan)])].filter((f) => (found[f] ?? 0) !== (scan[f] ?? 0));
   const [ready, readyMs] = timed(() => readiness(effectManifest(openGraph(dir), inv)));
@@ -114,7 +114,7 @@ const fmtMs = (ms) => (ms < 1000 ? `${ms} ms` : `${(ms / 1000).toFixed(1)} s`);
 const md = [
   "# Veridic benchmark",
   "",
-  `${results.length} public Express apps, pinned to exact commits ([repos.json](repos.json)). Measured with Veridic ${VERSION}. Reproduce with \`npm install && node run.mjs\`. Veridic only reads the apps; it never installs or runs them.`,
+  `${results.length} public Express and Next.js apps, pinned to exact commits ([repos.json](repos.json)). Measured with Veridic ${VERSION}. Reproduce with \`npm install && node run.mjs\`. Veridic only reads the apps; it never installs or runs them.`,
   "",
   "## Summary",
   "",
@@ -137,7 +137,7 @@ const md = [
   "",
   "## How each number is measured",
   "",
-  "- **Routes:** Veridic's route list is compared, per file, with an independent text scan in this script that shares no code with Veridic (direct `x.get('/path')` calls and `route('/path').get()` chains, comments skipped). Code snippets kept as data (Juice Shop's `data/static/codefixes`) aren't served routes and are left out of both.",
+  "- **Routes:** Veridic's route list is compared, per file, with an independent text scan in this script that shares no code with Veridic (direct `x.get('/path')` calls and `route('/path').get()` chains, comments skipped). Code snippets kept as data (Juice Shop's `data/static/codefixes`) aren't served routes and are left out of both. Next.js apps get their own scan: the verbs each `app/**/route` file exports, the methods each `pages/api` file compares `req.method` with (one route when none), and the exports of `\"use server\"` files.",
   "- **Holdout:** the holdout apps were run only after route discovery had been improved on the dev apps. Their first-run result is recorded before the one fix they prompted (an app handed into a function, `require('./routes')(app)`).",
   "- **Issues:** every high and medium issue was read against the source at the pinned commit; each verdict and its reason is in [verdicts.json](verdicts.json). Low issues aren't graded.",
   "- **Tests:** every `it`/`test` in the repo is classified by what it checks. *Assert nothing*: no assertion, or only one on a literal. *Weak*: only loose checks (`toBeTruthy`, `toBeDefined`, bare `toHaveBeenCalled()`); many are reasonable existence checks, so this column is informational.",
@@ -146,6 +146,9 @@ const md = [
   "",
   "- Juice Shop `PUT /api/BasketItems/:id` edits a basket item the caller may not own. Its route uses `appendUserId()`, which Veridic takes as caller scoping; the handler doesn't use it.",
   "- bulletproof-nodejs mounts its API under `config.api.prefix`, a value only known at run time, so its routes are listed without that prefix.",
+  "- papermark's tus upload route is one route for every method (Veridic: ALL); the independent scan counts 2, from a POST check inside a helper.",
+  "- Any Stripe call counts as moving money, reads like `subscriptions.retrieve` and `invoices.createPreview` too (inbox-zero's `GET /api/user/trial-preview`).",
+  "- Routes that are public by design behind a secret token (booking cancel links, document share links, OTP-gated entry links) are flagged for acting on an id; the token check isn't recognised as scoping.",
   "",
 ].join("\n");
 
