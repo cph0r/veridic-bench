@@ -314,7 +314,7 @@
    "body": "{ article: { body: \"changed\" } }"
   },
   "expect": {
-   "status": 403
+   "status": "denied"
   },
   "needs": [
    "seed:slug"
@@ -345,7 +345,7 @@
    "as": "other"
   },
   "expect": {
-   "status": 403
+   "status": "denied"
   },
   "needs": [
    "seed:slug"
@@ -431,7 +431,7 @@
    "as": "other"
   },
   "expect": {
-   "status": 404
+   "status": "denied"
   },
   "needs": [
    "seed:slug",
