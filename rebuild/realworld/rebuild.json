@@ -1,0 +1,115 @@
+{
+ "url": "http://127.0.0.1:3410",
+ "visible": {
+  "passed": 48,
+  "checks": 48,
+  "fidelity_pct": 100,
+  "by_kind": {
+   "access": "12/12",
+   "example": "29/29",
+   "scope": "3/3",
+   "journey": "4/4"
+  },
+  "failed": [],
+  "not_run": []
+ },
+ "held_out": {
+  "passed": 22,
+  "checks": 22,
+  "fidelity_pct": 100,
+  "failed": [],
+  "not_run": []
+ },
+ "compare": {
+  "against": "http://127.0.0.1:3399",
+  "same": 3,
+  "requests": 20,
+  "differences": [
+   {
+    "request": "GET /api/articles?offset=-1",
+    "here": "200 {\"articles\":[\"[]\"],\"articlesCount\":\"number\"}",
+    "there": "500 \"string\""
+   },
+   {
+    "request": "GET /api/articles/:slug as owner",
+    "here": "200 {\"article\":{\"author\":{\"bio\":\"object\",\"following\":\"boolean\",\"image\":\"object\",\"username\":\"string\"},\"body\":\"string\",\"createdAt\":\"string\",\"description\":\"string\",\"favorited\":\"boolean\",\"favoritesCount\":\"number\",\"slug\":\"string\",\"tagList\":[\"string\"],\"title\":\"string\",\"updatedAt\":\"string\"}}",
+    "there": "200 {\"article\":{\"author\":{\"bio\":\"object\",\"following\":\"boolean\",\"image\":\"string\",\"username\":\"string\"},\"body\":\"string\",\"createdAt\":\"string\",\"description\":\"string\",\"favorited\":\"boolean\",\"favoritesCount\":\"number\",\"slug\":\"string\",\"tagList\":[\"string\"],\"title\":\"string\",\"updatedAt\":\"string\"}}"
+   },
+   {
+    "request": "GET /api/articles/no-such-0/comments",
+    "here": "404 {\"errors\":{\"article\":[\"string\"]}}",
+    "there": "200 {}"
+   },
+   {
+    "request": "POST /api/articles/no-such-0/comments as owner",
+    "here": "404 {\"errors\":{\"article\":[\"string\"]}}",
+    "there": "500 \"string\""
+   },
+   {
+    "request": "POST /api/articles/no-such-0/favorite as owner",
+    "here": "404 {\"errors\":{\"article\":[\"string\"]}}",
+    "there": "500 \"string\""
+   },
+   {
+    "request": "POST /api/profiles/no-such-user-0/follow as owner",
+    "here": "404 {\"errors\":{\"profile\":[\"string\"]}}",
+    "there": "500 \"string\""
+   },
+   {
+    "request": "GET /api/profiles/no-such-user-0",
+    "here": "404 {\"errors\":{\"profile\":[\"string\"]}}",
+    "there": "404 {}"
+   },
+   {
+    "request": "PUT /api/user as owner",
+    "here": "422 {\"errors\":{\"username\":[\"string\"]}}",
+    "there": "500 \"string\""
+   },
+   {
+    "request": "POST /api/articles as owner",
+    "here": "201 {\"article\":{\"author\":{\"bio\":\"object\",\"following\":\"boolean\",\"image\":\"object\",\"username\":\"string\"},\"body\":\"string\",\"createdAt\":\"string\",\"description\":\"string\",\"favorited\":\"boolean\",\"favoritesCount\":\"number\",\"slug\":\"string\",\"tagList\":[\"[]\"],\"title\":\"string\",\"updatedAt\":\"string\"}}",
+    "there": "201 {\"article\":{\"author\":{\"bio\":\"object\",\"following\":\"boolean\",\"image\":\"string\",\"username\":\"string\"},\"body\":\"string\",\"createdAt\":\"string\",\"description\":\"string\",\"favorited\":\"boolean\",\"favoritesCount\":\"number\",\"slug\":\"string\",\"tagList\":[\"[]\"],\"title\":\"string\",\"updatedAt\":\"string\"}}"
+   },
+   {
+    "request": "POST /api/articles as owner",
+    "here": "422 {\"errors\":{\"title\":[\"string\"]}}",
+    "there": "500 \"string\""
+   },
+   {
+    "request": "POST /api/users/login",
+    "here": "422 {\"errors\":{\"email\":[\"string\"]}}",
+    "there": "500 \"string\""
+   },
+   {
+    "request": "GET /api/user as bad",
+    "here": "401 {\"errors\":{\"authorization\":[\"string\"]}}",
+    "there": "401 {\"message\":\"string\",\"status\":\"string\"}"
+   },
+   {
+    "request": "GET /api/articles as bad",
+    "here": "401 {\"errors\":{\"authorization\":[\"string\"]}}",
+    "there": "401 {\"message\":\"string\",\"status\":\"string\"}"
+   },
+   {
+    "request": "POST /api/articles/:slug/comments as owner",
+    "here": "200 {\"comment\":{\"author\":{\"bio\":\"object\",\"following\":\"boolean\",\"image\":\"object\",\"username\":\"string\"},\"body\":\"string\",\"createdAt\":\"string\",\"id\":\"number\",\"updatedAt\":\"string\"}}",
+    "there": "200 {\"comment\":{\"author\":{\"bio\":\"object\",\"following\":\"boolean\",\"image\":\"string\",\"username\":\"string\"},\"body\":\"string\",\"createdAt\":\"string\",\"id\":\"number\",\"updatedAt\":\"string\"}}"
+   },
+   {
+    "request": "GET /api/articles/:slug/comments as owner",
+    "here": "200 {\"comments\":[{\"author\":{\"bio\":\"object\",\"following\":\"boolean\",\"image\":\"object\",\"username\":\"string\"},\"body\":\"string\",\"createdAt\":\"string\",\"id\":\"number\",\"updatedAt\":\"string\"}]}",
+    "there": "200 {\"comments\":[{\"author\":{\"bio\":\"object\",\"following\":\"boolean\",\"image\":\"string\",\"username\":\"string\"},\"body\":\"string\",\"createdAt\":\"string\",\"id\":\"number\",\"updatedAt\":\"string\"}]}"
+   },
+   {
+    "request": "DELETE /api/articles/:slug/comments/999999 as owner",
+    "here": "404 {\"errors\":{\"comment\":[\"string\"]}}",
+    "there": "404 {}"
+   },
+   {
+    "request": "PUT /api/articles/:slug as owner",
+    "here": "200 {\"article\":{\"author\":{\"bio\":\"object\",\"following\":\"boolean\",\"image\":\"object\",\"username\":\"string\"},\"body\":\"string\",\"createdAt\":\"string\",\"description\":\"string\",\"favorited\":\"boolean\",\"favoritesCount\":\"number\",\"slug\":\"string\",\"tagList\":[\"[]\"],\"title\":\"string\",\"updatedAt\":\"string\"}}",
+    "there": "200 {\"article\":{\"author\":{\"bio\":\"object\",\"following\":\"boolean\",\"image\":\"string\",\"username\":\"string\"},\"body\":\"string\",\"createdAt\":\"string\",\"description\":\"string\",\"favorited\":\"boolean\",\"favoritesCount\":\"number\",\"slug\":\"string\",\"tagList\":[\"[]\"],\"title\":\"string\",\"updatedAt\":\"string\"}}"
+   }
+  ]
+ }
+}

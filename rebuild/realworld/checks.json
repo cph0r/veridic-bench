@@ -1,0 +1,1035 @@
+[
+ {
+  "id": "access:GET /api/articles/feed:anon",
+  "rule": null,
+  "kind": "access",
+  "request": {
+   "method": "GET",
+   "path": "/api/articles/feed",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 401
+  },
+  "needs": []
+ },
+ {
+  "id": "access:POST /api/articles:anon",
+  "rule": null,
+  "kind": "access",
+  "request": {
+   "method": "POST",
+   "path": "/api/articles",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 401
+  },
+  "needs": []
+ },
+ {
+  "id": "access:PUT /api/articles/:slug:anon",
+  "rule": null,
+  "kind": "access",
+  "request": {
+   "method": "PUT",
+   "path": "/api/articles/:slug",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 401
+  },
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "access:DELETE /api/articles/:slug:anon",
+  "rule": null,
+  "kind": "access",
+  "request": {
+   "method": "DELETE",
+   "path": "/api/articles/:slug",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 401
+  },
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "access:POST /api/articles/:slug/comments:anon",
+  "rule": null,
+  "kind": "access",
+  "request": {
+   "method": "POST",
+   "path": "/api/articles/:slug/comments",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 401
+  },
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "access:DELETE /api/articles/:slug/comments/:id:anon",
+  "rule": null,
+  "kind": "access",
+  "request": {
+   "method": "DELETE",
+   "path": "/api/articles/:slug/comments/:id",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 401
+  },
+  "needs": [
+   "seed:slug",
+   "seed:id"
+  ]
+ },
+ {
+  "id": "access:POST /api/articles/:slug/favorite:anon",
+  "rule": null,
+  "kind": "access",
+  "request": {
+   "method": "POST",
+   "path": "/api/articles/:slug/favorite",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 401
+  },
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "access:DELETE /api/articles/:slug/favorite:anon",
+  "rule": null,
+  "kind": "access",
+  "request": {
+   "method": "DELETE",
+   "path": "/api/articles/:slug/favorite",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 401
+  },
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "access:GET /api/user:anon",
+  "rule": null,
+  "kind": "access",
+  "request": {
+   "method": "GET",
+   "path": "/api/user",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 401
+  },
+  "needs": []
+ },
+ {
+  "id": "access:PUT /api/user:anon",
+  "rule": null,
+  "kind": "access",
+  "request": {
+   "method": "PUT",
+   "path": "/api/user",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 401
+  },
+  "needs": []
+ },
+ {
+  "id": "access:POST /api/profiles/:username/follow:anon",
+  "rule": null,
+  "kind": "access",
+  "request": {
+   "method": "POST",
+   "path": "/api/profiles/:username/follow",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 401
+  },
+  "needs": [
+   "seed:username"
+  ]
+ },
+ {
+  "id": "access:DELETE /api/profiles/:username/follow:anon",
+  "rule": null,
+  "kind": "access",
+  "request": {
+   "method": "DELETE",
+   "path": "/api/profiles/:username/follow",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 401
+  },
+  "needs": [
+   "seed:username"
+  ]
+ },
+ {
+  "id": "example:articles:FR-001:1",
+  "rule": "articles:FR-001",
+  "kind": "example",
+  "request": {
+   "method": "GET",
+   "path": "/api/articles",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 200
+  },
+  "needs": []
+ },
+ {
+  "id": "example:articles:FR-003:1",
+  "rule": "articles:FR-003",
+  "kind": "example",
+  "request": {
+   "method": "GET",
+   "path": "/api/articles/feed",
+   "as": "owner"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "articlesCount": "0"
+   }
+  },
+  "needs": []
+ },
+ {
+  "id": "example:articles:FR-004:1",
+  "rule": "articles:FR-004",
+  "kind": "example",
+  "request": {
+   "method": "POST",
+   "path": "/api/articles",
+   "as": "owner",
+   "body": "{ article: { description: \"d\", body: \"b\" } }"
+  },
+  "expect": {
+   "status": 422,
+   "fields": {
+    "errors.title": "[\"can't be blank\"]"
+   }
+  },
+  "needs": []
+ },
+ {
+  "id": "example:articles:FR-004:2",
+  "rule": "articles:FR-004",
+  "kind": "example",
+  "request": {
+   "method": "POST",
+   "path": "/api/articles",
+   "as": "owner",
+   "body": "{ article: { title: \"t\", body: \"b\" } }"
+  },
+  "expect": {
+   "status": 422,
+   "fields": {
+    "errors.description": "[\"can't be blank\"]"
+   }
+  },
+  "needs": []
+ },
+ {
+  "id": "example:articles:FR-006:1",
+  "rule": "articles:FR-006",
+  "kind": "example",
+  "request": {
+   "method": "POST",
+   "path": "/api/articles",
+   "as": "owner",
+   "body": "{ article: { title: \"Conform {{unique}}\", description: \"d\", body: \"b\", tagList: [\"conform\"] } }"
+  },
+  "expect": {
+   "status": 201,
+   "fields": {
+    "article.tagList": "[\"conform\"]",
+    "article.author.username": "\"{{username}}\""
+   }
+  },
+  "needs": []
+ },
+ {
+  "id": "example:articles:FR-008:1",
+  "rule": "articles:FR-008",
+  "kind": "example",
+  "request": {
+   "method": "GET",
+   "path": "/api/articles/:slug",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "article.slug": "\"{{slug}}\""
+   }
+  },
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "example:articles:FR-008:2",
+  "rule": "articles:FR-008",
+  "kind": "example",
+  "request": {
+   "method": "GET",
+   "path": "/api/articles/no-such-article-0",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 404
+  },
+  "needs": []
+ },
+ {
+  "id": "scope:articles:FR-009:1",
+  "rule": "articles:FR-009",
+  "kind": "scope",
+  "request": {
+   "method": "PUT",
+   "path": "/api/articles/:slug",
+   "as": "other",
+   "body": "{ article: { body: \"changed\" } }"
+  },
+  "expect": {
+   "status": 403
+  },
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "example:articles:FR-009:2",
+  "rule": "articles:FR-009",
+  "kind": "example",
+  "request": {
+   "method": "PUT",
+   "path": "/api/articles/no-such-article-0",
+   "as": "owner",
+   "body": "{ article: { body: \"x\" } }"
+  },
+  "expect": {
+   "status": 404
+  },
+  "needs": []
+ },
+ {
+  "id": "scope:articles:FR-011:1",
+  "rule": "articles:FR-011",
+  "kind": "scope",
+  "request": {
+   "method": "DELETE",
+   "path": "/api/articles/:slug",
+   "as": "other"
+  },
+  "expect": {
+   "status": 403
+  },
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "example:articles:FR-011:2",
+  "rule": "articles:FR-011",
+  "kind": "example",
+  "request": {
+   "method": "DELETE",
+   "path": "/api/articles/no-such-article-0",
+   "as": "owner"
+  },
+  "expect": {
+   "status": 404
+  },
+  "needs": []
+ },
+ {
+  "id": "example:articles:FR-012:1",
+  "rule": "articles:FR-012",
+  "kind": "example",
+  "request": {
+   "method": "GET",
+   "path": "/api/articles/:slug/comments",
+   "as": "owner"
+  },
+  "expect": {
+   "status": 200
+  },
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "example:articles:FR-013:1",
+  "rule": "articles:FR-013",
+  "kind": "example",
+  "request": {
+   "method": "POST",
+   "path": "/api/articles/:slug/comments",
+   "as": "owner",
+   "body": "{ comment: { body: \"\" } }"
+  },
+  "expect": {
+   "status": 422,
+   "fields": {
+    "errors.body": "[\"can't be blank\"]"
+   }
+  },
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "example:articles:FR-013:2",
+  "rule": "articles:FR-013",
+  "kind": "example",
+  "request": {
+   "method": "POST",
+   "path": "/api/articles/:slug/comments",
+   "as": "other",
+   "body": "{ comment: { body: \"Nice\" } }"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "comment.body": "\"Nice\""
+   }
+  },
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "scope:articles:FR-014:1",
+  "rule": "articles:FR-014",
+  "kind": "scope",
+  "request": {
+   "method": "DELETE",
+   "path": "/api/articles/:slug/comments/:id",
+   "as": "other"
+  },
+  "expect": {
+   "status": 404
+  },
+  "needs": [
+   "seed:slug",
+   "seed:id"
+  ]
+ },
+ {
+  "id": "example:articles:FR-015:1",
+  "rule": "articles:FR-015",
+  "kind": "example",
+  "request": {
+   "method": "POST",
+   "path": "/api/articles/:slug/favorite",
+   "as": "other"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "article.favorited": "true",
+    "article.favoritesCount": "1"
+   }
+  },
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "example:articles:FR-016:1",
+  "rule": "articles:FR-016",
+  "kind": "example",
+  "request": {
+   "method": "DELETE",
+   "path": "/api/articles/:slug/favorite",
+   "as": "other"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "article.favorited": "false",
+    "article.favoritesCount": "0"
+   }
+  },
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "example:auth:FR-001:1",
+  "rule": "auth:FR-001",
+  "kind": "example",
+  "request": {
+   "method": "POST",
+   "path": "/api/users",
+   "as": "anon",
+   "body": "{ user: { email: \"u{{unique}}@example.test\", username: \"u{{unique}}\", password: \"pw{{unique}}\" } }"
+  },
+  "expect": {
+   "status": 201
+  },
+  "needs": []
+ },
+ {
+  "id": "example:auth:FR-002:1",
+  "rule": "auth:FR-002",
+  "kind": "example",
+  "request": {
+   "method": "POST",
+   "path": "/api/users",
+   "as": "anon",
+   "body": "{ user: { email: \" \", username: \"u{{unique}}\", password: \"pw\" } }"
+  },
+  "expect": {
+   "status": 422,
+   "fields": {
+    "errors.email": "[\"can't be blank\"]"
+   }
+  },
+  "needs": []
+ },
+ {
+  "id": "example:auth:FR-003:1",
+  "rule": "auth:FR-003",
+  "kind": "example",
+  "request": {
+   "method": "POST",
+   "path": "/api/users",
+   "as": "anon",
+   "body": "{ user: { email: \"{{email}}\", username: \"u{{unique}}\", password: \"pw\" } }"
+  },
+  "expect": {
+   "status": 422,
+   "fields": {
+    "errors.email": "[\"has already been taken\"]"
+   }
+  },
+  "needs": []
+ },
+ {
+  "id": "example:auth:FR-006:1",
+  "rule": "auth:FR-006",
+  "kind": "example",
+  "request": {
+   "method": "POST",
+   "path": "/api/users/login",
+   "as": "anon",
+   "body": "{ user: { email: \"{{email}}\", password: \"{{password}}\" } }"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "user.username": "\"{{username}}\""
+   }
+  },
+  "needs": []
+ },
+ {
+  "id": "example:auth:FR-007:1",
+  "rule": "auth:FR-007",
+  "kind": "example",
+  "request": {
+   "method": "POST",
+   "path": "/api/users/login",
+   "as": "anon",
+   "body": "{ user: { email: \"{{email}}\", password: \"\" } }"
+  },
+  "expect": {
+   "status": 422,
+   "fields": {
+    "errors.password": "[\"can't be blank\"]"
+   }
+  },
+  "needs": []
+ },
+ {
+  "id": "example:auth:FR-009:1",
+  "rule": "auth:FR-009",
+  "kind": "example",
+  "request": {
+   "method": "POST",
+   "path": "/api/users/login",
+   "as": "anon",
+   "body": "{ user: { email: \"{{email}}\", password: \"wrong\" } }"
+  },
+  "expect": {
+   "status": 403
+  },
+  "needs": []
+ },
+ {
+  "id": "example:auth:FR-010:1",
+  "rule": "auth:FR-010",
+  "kind": "example",
+  "request": {
+   "method": "GET",
+   "path": "/api/user",
+   "as": "owner"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "user.username": "\"{{username}}\""
+   }
+  },
+  "needs": []
+ },
+ {
+  "id": "example:auth:FR-012:1",
+  "rule": "auth:FR-012",
+  "kind": "example",
+  "request": {
+   "method": "PUT",
+   "path": "/api/user",
+   "as": "owner",
+   "body": "{ user: { bio: \"Conform bio\" } }"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "user.bio": "\"Conform bio\""
+   }
+  },
+  "needs": []
+ },
+ {
+  "id": "example:profiles:FR-001:1",
+  "rule": "profiles:FR-001",
+  "kind": "example",
+  "request": {
+   "method": "GET",
+   "path": "/api/profiles/:username",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "profile.username": "\"{{username}}\"",
+    "profile.following": "false"
+   }
+  },
+  "needs": [
+   "seed:username"
+  ]
+ },
+ {
+  "id": "example:profiles:FR-001:2",
+  "rule": "profiles:FR-001",
+  "kind": "example",
+  "request": {
+   "method": "GET",
+   "path": "/api/profiles/no-such-user-0",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 404
+  },
+  "needs": []
+ },
+ {
+  "id": "example:profiles:FR-002:1",
+  "rule": "profiles:FR-002",
+  "kind": "example",
+  "request": {
+   "method": "POST",
+   "path": "/api/profiles/:username/follow",
+   "as": "other"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "profile.following": "true"
+   }
+  },
+  "needs": [
+   "seed:username"
+  ]
+ },
+ {
+  "id": "example:profiles:FR-002:2",
+  "rule": "profiles:FR-002",
+  "kind": "example",
+  "request": {
+   "method": "GET",
+   "path": "/api/profiles/:username",
+   "as": "other"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "profile.following": "true"
+   }
+  },
+  "needs": [
+   "seed:username"
+  ]
+ },
+ {
+  "id": "example:profiles:FR-003:1",
+  "rule": "profiles:FR-003",
+  "kind": "example",
+  "request": {
+   "method": "DELETE",
+   "path": "/api/profiles/:username/follow",
+   "as": "other"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "profile.following": "false"
+   }
+  },
+  "needs": [
+   "seed:username"
+  ]
+ },
+ {
+  "id": "example:tags:FR-001:1",
+  "rule": "tags:FR-001",
+  "kind": "example",
+  "request": {
+   "method": "GET",
+   "path": "/api/tags",
+   "as": "anon"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "tags": "[]"
+   }
+  },
+  "needs": []
+ },
+ {
+  "id": "example:tags:FR-001:2",
+  "rule": "tags:FR-001",
+  "kind": "example",
+  "request": {
+   "method": "GET",
+   "path": "/api/tags",
+   "as": "owner"
+  },
+  "expect": {
+   "status": 200,
+   "fields": {
+    "tags": "[\"conform\"]"
+   }
+  },
+  "needs": []
+ },
+ {
+  "id": "journey:J-001",
+  "rule": null,
+  "kind": "journey",
+  "title": "Join and sign in",
+  "steps": [
+   {
+    "request": {
+     "method": "POST",
+     "path": "/api/users",
+     "as": "anon",
+     "body": "{ user: { email: \"u{{unique}}@example.test\", username: \"u{{unique}}\", password: \"pw{{unique}}\" } }"
+    },
+    "expect": {
+     "status": 201
+    }
+   },
+   {
+    "request": {
+     "method": "POST",
+     "path": "/api/users",
+     "as": "anon",
+     "body": "{ user: { email: \" \", username: \"u{{unique}}\", password: \"pw\" } }"
+    },
+    "expect": {
+     "status": 422,
+     "fields": {
+      "errors.email": "[\"can't be blank\"]"
+     }
+    }
+   },
+   {
+    "request": {
+     "method": "POST",
+     "path": "/api/users",
+     "as": "anon",
+     "body": "{ user: { email: \"{{email}}\", username: \"u{{unique}}\", password: \"pw\" } }"
+    },
+    "expect": {
+     "status": 422,
+     "fields": {
+      "errors.email": "[\"has already been taken\"]"
+     }
+    }
+   },
+   {
+    "request": {
+     "method": "POST",
+     "path": "/api/users/login",
+     "as": "anon",
+     "body": "{ user: { email: \"{{email}}\", password: \"{{password}}\" } }"
+    },
+    "expect": {
+     "status": 200,
+     "fields": {
+      "user.username": "\"{{username}}\""
+     }
+    }
+   }
+  ],
+  "needs": []
+ },
+ {
+  "id": "journey:J-002",
+  "rule": null,
+  "kind": "journey",
+  "title": "Write an article",
+  "steps": [
+   {
+    "request": {
+     "method": "POST",
+     "path": "/api/articles",
+     "as": "owner",
+     "body": "{ article: { description: \"d\", body: \"b\" } }"
+    },
+    "expect": {
+     "status": 422,
+     "fields": {
+      "errors.title": "[\"can't be blank\"]"
+     }
+    }
+   },
+   {
+    "request": {
+     "method": "POST",
+     "path": "/api/articles",
+     "as": "owner",
+     "body": "{ article: { title: \"t\", body: \"b\" } }"
+    },
+    "expect": {
+     "status": 422,
+     "fields": {
+      "errors.description": "[\"can't be blank\"]"
+     }
+    }
+   },
+   {
+    "request": {
+     "method": "POST",
+     "path": "/api/articles",
+     "as": "owner",
+     "body": "{ article: { title: \"Conform {{unique}}\", description: \"d\", body: \"b\", tagList: [\"conform\"] } }"
+    },
+    "expect": {
+     "status": 201,
+     "fields": {
+      "article.tagList": "[\"conform\"]",
+      "article.author.username": "\"{{username}}\""
+     }
+    }
+   },
+   {
+    "request": {
+     "method": "GET",
+     "path": "/api/articles/:slug",
+     "as": "anon"
+    },
+    "expect": {
+     "status": 200,
+     "fields": {
+      "article.slug": "\"{{slug}}\""
+     }
+    }
+   },
+   {
+    "request": {
+     "method": "GET",
+     "path": "/api/articles/no-such-article-0",
+     "as": "anon"
+    },
+    "expect": {
+     "status": 404
+    }
+   },
+   {
+    "request": {
+     "method": "GET",
+     "path": "/api/articles",
+     "as": "anon"
+    },
+    "expect": {
+     "status": 200
+    }
+   }
+  ],
+  "needs": [
+   "seed:slug"
+  ]
+ },
+ {
+  "id": "journey:J-003",
+  "rule": null,
+  "kind": "journey",
+  "title": "Follow the conversation",
+  "steps": [
+   {
+    "request": {
+     "method": "POST",
+     "path": "/api/articles/:slug/comments",
+     "as": "owner",
+     "body": "{ comment: { body: \"\" } }"
+    },
+    "expect": {
+     "status": 422,
+     "fields": {
+      "errors.body": "[\"can't be blank\"]"
+     }
+    }
+   },
+   {
+    "request": {
+     "method": "POST",
+     "path": "/api/articles/:slug/comments",
+     "as": "other",
+     "body": "{ comment: { body: \"Nice\" } }"
+    },
+    "expect": {
+     "status": 200,
+     "fields": {
+      "comment.body": "\"Nice\""
+     }
+    }
+   },
+   {
+    "request": {
+     "method": "POST",
+     "path": "/api/articles/:slug/favorite",
+     "as": "other"
+    },
+    "expect": {
+     "status": 200,
+     "fields": {
+      "article.favorited": "true",
+      "article.favoritesCount": "1"
+     }
+    }
+   },
+   {
+    "request": {
+     "method": "DELETE",
+     "path": "/api/articles/:slug/favorite",
+     "as": "other"
+    },
+    "expect": {
+     "status": 200,
+     "fields": {
+      "article.favorited": "false",
+      "article.favoritesCount": "0"
+     }
+    }
+   },
+   {
+    "request": {
+     "method": "POST",
+     "path": "/api/profiles/:username/follow",
+     "as": "other"
+    },
+    "expect": {
+     "status": 200,
+     "fields": {
+      "profile.following": "true"
+     }
+    }
+   },
+   {
+    "request": {
+     "method": "GET",
+     "path": "/api/profiles/:username",
+     "as": "other"
+    },
+    "expect": {
+     "status": 200,
+     "fields": {
+      "profile.following": "true"
+     }
+    }
+   },
+   {
+    "request": {
+     "method": "GET",
+     "path": "/api/articles/feed",
+     "as": "owner"
+    },
+    "expect": {
+     "status": 200,
+     "fields": {
+      "articlesCount": "0"
+     }
+    }
+   }
+  ],
+  "needs": [
+   "seed:slug",
+   "seed:username"
+  ]
+ },
+ {
+  "id": "journey:J-004",
+  "rule": null,
+  "kind": "journey",
+  "title": "Keep a profile up to date",
+  "steps": [
+   {
+    "request": {
+     "method": "PUT",
+     "path": "/api/user",
+     "as": "owner",
+     "body": "{ user: { bio: \"Conform bio\" } }"
+    },
+    "expect": {
+     "status": 200,
+     "fields": {
+      "user.bio": "\"Conform bio\""
+     }
+    }
+   },
+   {
+    "request": {
+     "method": "GET",
+     "path": "/api/user",
+     "as": "owner"
+    },
+    "expect": {
+     "status": 200,
+     "fields": {
+      "user.username": "\"{{username}}\""
+     }
+    }
+   }
+  ],
+  "needs": []
+ }
+]

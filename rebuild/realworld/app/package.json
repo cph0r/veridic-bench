@@ -1,0 +1,21 @@
+{
+  "name": "conduit-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "fastify": "^4.29.1",
+    "jsonwebtoken": "^9.0.3",
+    "pg": "^8.23.1",
+    "slugify": "^1.6.9"
+  },
+  "private": true
+}

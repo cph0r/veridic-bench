@@ -1,0 +1,23 @@
+{
+ "url": "http://127.0.0.1:3399",
+ "visible": {
+  "passed": 48,
+  "checks": 48,
+  "fidelity_pct": 100,
+  "by_kind": {
+   "access": "12/12",
+   "example": "29/29",
+   "scope": "3/3",
+   "journey": "4/4"
+  },
+  "failed": [],
+  "not_run": []
+ },
+ "held_out": {
+  "passed": 22,
+  "checks": 22,
+  "fidelity_pct": 100,
+  "failed": [],
+  "not_run": []
+ }
+}
